@@ -16,6 +16,10 @@ datasource db {
 model Rol {
   id Int @id @default(autoincrement())
   tipo String
+  createdAt DateTime @default(now()) @map("created_At")
+  updatedAt DateTime @updatedAt
+
+//copiar en los campos en todas las tablas
 
   personas Persona[]
 
@@ -83,7 +87,7 @@ model Persona {
   rolId Int @map("rol_id")
 
   user User?
-
+//en relacion uno a uno se debe poner el signo de ?
   negocio Negocio?
 
   puntoventas Puntoventa[]
@@ -125,6 +129,8 @@ model Negocio {
   puntoventas Puntoventa[]
 
   productos Producto[]
+
+  prodpresentaciontamano Prodpresentaciontamano[]
 
   @@map("negocios")
 }
@@ -170,6 +176,8 @@ model Producto {
 
   negocios Negocio[]
 
+  productovariantes Productovariante[]
+
   @@map("productos")
 }
 
@@ -188,11 +196,35 @@ model Prodpresentacion {
 
   unidades Unidad[]
 
- @@map("prodpresentaciones") 
+  prodpresentaciontamano Prodpresentaciontamano[]
+
+ @@map("prodpresentacion") 
 }
 model Prodpresentaciontamano {
   id Int @id @default(autoincrement())
   tamano String
 
+  prodpresentacion Prodpresentacion @relation(fields: [prodpresentacionId], references: [id])
+  prodpresentacionId Int @map("prodpresentacion_id")
+
+  negocios Negocio[]
+
+  productovariantes Productovariante[]
+
  @@map("prodpresentaciontamanos") 
+}
+model Productovariante {
+  id Int @id @default(autoincrement())
+  costo Float
+  preciosinigv Float
+  precioconigv Float
+  stock Int
+
+  productos Producto @relation(fields: [productoId], references: [id])
+  productoId Int @map("producto_id")
+
+  prodpresentaciontamano Prodpresentaciontamano @relation(fields: [prodpresentaciontamanoId], references: [id])
+  prodpresentaciontamanoId Int @map("prodpresentaciontamano_id")
+
+ @@map("productovariantes")   
 }
