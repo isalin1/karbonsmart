@@ -1,0 +1,198 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Rol {
+  id Int @id @default(autoincrement())
+  tipo String
+
+  personas Persona[]
+
+  @@map("rols")
+}
+model Departamento {
+  id Int @id @default(autoincrement())
+  nombre String
+
+  provincias Provincia[]
+
+  personas Persona[]
+
+  puntoventas Puntoventa[]
+
+  @@map("departamentos")
+}
+model Provincia {
+  id Int @id @default(autoincrement())
+  nombre String
+
+  departamento Departamento @relation(fields: [departamentoId], references: [id])
+  departamentoId Int @map("departamento_id")
+
+  distritos Distrito[]
+
+  personas Persona[]
+
+  puntoventas Puntoventa[]
+
+  @@map("provincias")
+}
+
+model Distrito {
+  id Int @id @default(autoincrement())
+  nombre String
+
+  provincia Provincia @relation(fields: [provinciaId], references: [id])
+  provinciaId Int @map("provincia_id")
+
+  personas Persona[]
+
+  puntoventas Puntoventa[]
+
+  @@map("distritos")
+}
+
+model Persona {
+  id Int @id @default(autoincrement())
+  nombre String
+  apellidos String
+  dni String
+  telefono String
+
+  departamento Departamento @relation(fields: [departamentoId], references: [id])
+  departamentoId Int @map("departamento_id")
+
+  provincia Provincia @relation(fields: [provinciaId], references: [id])
+  provinciaId Int @map("provincia_id")
+
+  distrito Distrito @relation(fields: [distritoId], references: [id])
+  distritoId Int @map("distrito_id")
+
+  rol Rol @relation(fields: [rolId], references: [id])
+  rolId Int @map("rol_id")
+
+  user User?
+
+  negocio Negocio?
+
+  puntoventas Puntoventa[]
+
+  @@map("personas")
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  usuario String
+  password String
+
+  persona Persona @relation(fields: [personaId], references: [id])
+  personaId Int @unique @map("persona_id")
+
+  @@map("users")
+}
+
+model Rubro {
+  id Int @id @default(autoincrement())
+  nombre String
+
+  negocios Negocio[]
+
+  @@map("rubros")
+}
+
+model Negocio {
+  id Int @id @default(autoincrement())
+  razonSocial String
+  ruc String?
+
+  rubro Rubro @relation(fields: [rubroId], references: [id])
+  rubroId Int @unique @map("rubro_id")
+
+  persona Persona @relation(fields: [personaId], references: [id])
+  personaId Int @unique @map("distribuidor_id")
+
+  puntoventas Puntoventa[]
+
+  productos Producto[]
+
+  @@map("negocios")
+}
+
+model Puntoventa {
+  id Int @id @default(autoincrement())
+  nombrecomercial String
+  direcion String
+
+  negocio Negocio @relation(fields: [negocioId], references: [id])
+  negocioId Int @map("negocio_id")
+
+  persona Persona @relation(fields: [personaId], references: [id])
+  personaId Int @map("encargado_id")
+
+  departamento Departamento @relation(fields: [departamentoId], references: [id])
+  departamentoId Int @map("departamento_id")
+
+  provincia Provincia @relation(fields: [provinciaId], references: [id])
+  provinciaId Int @map("provincia_id")
+
+  distrito Distrito @relation(fields: [distritoId], references: [id])
+  distritoId Int @map("distrito_id")
+
+  @@map("puntoventas")
+}
+
+model Tipoproducto {
+  id Int @id @default(autoincrement())
+  nombre String
+
+  productos Producto[]
+
+  @@map("tipoproductos")
+}
+
+model Producto {
+  id Int @id @default(autoincrement())
+  nombre String
+
+  tipoproducto Tipoproducto @relation(fields: [tipoproductoId], references: [id])
+  tipoproductoId Int @map("tipoproducto_id")
+
+  negocios Negocio[]
+
+  @@map("productos")
+}
+
+model Unidad {
+  id Int @id @default(autoincrement())
+  nombre String
+
+  prodpresentaciones Prodpresentacion[]
+
+ @@map("unidades") 
+}
+
+model Prodpresentacion {
+  id Int @id @default(autoincrement())
+  empaque String
+
+  unidades Unidad[]
+
+ @@map("prodpresentaciones") 
+}
+model Prodpresentaciontamano {
+  id Int @id @default(autoincrement())
+  tamano String
+
+ @@map("prodpresentaciontamanos") 
+}
