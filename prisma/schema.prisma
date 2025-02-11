@@ -172,6 +172,8 @@ model Puntoventa {
   distrito Distrito @relation(fields: [distritoId], references: [id])
   distritoId Int @map("distrito_id")
 
+  transacciones Transaccion[]
+
   @@map("puntoventas")
 }
 
@@ -255,5 +257,104 @@ model Productovariante {
   prodpresentaciontamano Prodpresentaciontamano @relation(fields: [prodpresentaciontamanoId], references: [id])
   prodpresentaciontamanoId Int @map("prodpresentaciontamano_id")
 
+  movinventario Movinventario[]
+
+  inventarios Inventario[]
+
  @@map("productovariantes")   
 }
+
+model Transaccion {
+  id Int @id @default(autoincrement())
+  fechaentrega DateTime
+  valortrans Float
+  estado String
+  tipotrans TipoTransaccion //aun no se define el enum
+  createdAt DateTime @default(now()) @map("created_At")
+  updatedAt DateTime @updatedAt
+
+  puntoventa Puntoventa @relation(fields: [puntoventaId], references: [id])
+  puntoventaId Int @map("puntoventa_id")
+
+  transacciondetalles Transacciondetalle[]
+
+  transaccionprocesada Transaccionprocesada
+
+  movinventario Movinventario[]
+
+  @@map("transacciones")   
+}
+
+model Transacciondetalle {
+  id Int @id @default(autoincrement())
+  cantidad Float
+  preciounit Float
+  subtotal Float
+  createdAt DateTime @default(now()) @map("created_At")
+  updatedAt DateTime @updatedAt
+
+  transaccion Transaccion @relation(fields: [transaccionId], references: [id])
+  transaccionId Int @map("transaccion_id")
+
+  @@map("transacciondetalles")
+}
+
+model Transaccionprocesada {
+  id Int @id @default(autoincrement())
+  valortransproc Float?
+  tipotrans TipoTransaccion //aun no se define el enum
+  createdAt DateTime @default(now()) @map("created_At")
+  updatedAt DateTime @updatedAt
+
+  transaccion Transaccion @relation(fields: [transaccionId], references: [id])
+  transaccionId Int @unique @map("transaccion_id")
+
+
+@@map("transaccionprocesadas")
+}
+
+model Tipomovistock {
+  id Int @id @default(autoincrement())
+  tipo String
+  createdAt DateTime @default(now()) @map("created_At")
+  updatedAt DateTime @updatedAt
+
+  movinventario Movinventario[]
+
+ @@map("tipomovistocks") 
+}
+
+model Movinventario {
+  id Int @id @default(autoincrement())
+  cantidad Int
+  razon String
+  createdAt DateTime @default(now()) @map("created_At")
+  updatedAt DateTime @updatedAt
+
+  tipomovistock Tipomovistock @relation(fields: [tipomovistockId], references: [id])
+  tipomovistockId Int @unique @map("tipomovistock_id")
+
+  transaccion Transaccion @relation(fields: [transaccionId], references: [id])
+  transaccionId Int @map("transaccion_id")
+
+  productovariante Productovariante @relation(fields: [productovarianteId], references: [id])
+  productovarianteId Int @unique @map("productovariante_id")
+
+ @@map("movinventarios") 
+}
+
+model Inventario {
+  id Int @id @default(autoincrement())
+  stockfisico Int
+  stockdisponible Int
+  createdAt DateTime @default(now()) @map("created_At")
+  updatedAt DateTime @updatedAt
+
+  productovariante Productovariante @relation(fields: [productovarianteId], references: [id])
+  productovarianteId Int @map("productovariante_id")
+
+  @@map("inventarios")
+}
+
+
+
