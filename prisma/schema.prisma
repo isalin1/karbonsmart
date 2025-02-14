@@ -19,8 +19,6 @@ model Rol {
   createdAt DateTime @default(now()) @map("created_At")
   updatedAt DateTime @updatedAt
 
-//copiar en los campos en todas las tablas
-
   personas Persona[]
 
   @@map("rols")
@@ -105,7 +103,7 @@ model Persona {
 
 model User {
   id Int @id @default(autoincrement())
-  usuario String @unique
+  usuario String @unique //el usuario sera el email, como lo indico?
   password String
   IsActive Boolean @default(true)
   createdAt DateTime @default(now()) @map("created_At")
@@ -290,8 +288,8 @@ model Productovariante {
 }
 
 enum Tipotransaccion {
-  compra
-  venta
+  COMPRA
+  VENTA
   
 }
 
@@ -300,7 +298,7 @@ model Transaccion {
   fechaentrega DateTime
   valortrans Float
   estado String
-  tipotrans Tipotransaccion //aun no se define el enum
+  tipotrans Tipotransaccion
   createdAt DateTime @default(now()) @map("created_At")
   updatedAt DateTime @updatedAt
 
