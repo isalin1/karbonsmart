@@ -13,113 +13,121 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+//================================
+// ENUMS
+//================================
+enum Tipotransaccion {
+  COMPRA
+  VENTA
+}
+
+//================================
+// MODELOS
+//================================
 model Rol {
-  id Int @id @default(autoincrement())
-  tipo String
+  id        Int      @id @default(autoincrement())
+  tipo      String
   createdAt DateTime @default(now()) @map("created_At")
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @map("updated_At")
 
   personas Persona[]
 
   @@map("rols")
 }
+
 model Departamento {
-  id Int @id @default(autoincrement())
-  nombre String
+  id        Int      @id @default(autoincrement())
+  nombre    String
   createdAt DateTime @default(now()) @map("created_At")
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @map("updated_At")
 
-  provincias Provincia[]
-
-  personas Persona[]
-
+  provincias  Provincia[]
+  personas    Persona[]
   puntoventas Puntoventa[]
 
   @@map("departamentos")
 }
+
 model Provincia {
-  id Int @id @default(autoincrement())
-  nombre String
+  id        Int      @id @default(autoincrement())
+  nombre    String
   createdAt DateTime @default(now()) @map("created_At")
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @map("updated_At")
 
-  departamento Departamento @relation(fields: [departamentoId], references: [id])
-  departamentoId Int @map("departamento_id")
+  departamento   Departamento @relation(fields: [departamentoId], references: [id])
+  departamentoId Int          @map("departamento_id")
 
-  distritos Distrito[]
-
-  personas Persona[]
-
+  distritos   Distrito[]
+  personas    Persona[]
   puntoventas Puntoventa[]
 
   @@map("provincias")
 }
 
 model Distrito {
-  id Int @id @default(autoincrement())
-  nombre String
+  id        Int      @id @default(autoincrement())
+  nombre    String
   createdAt DateTime @default(now()) @map("created_At")
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @map("updated_At")
 
-  provincia Provincia @relation(fields: [provinciaId], references: [id])
-  provinciaId Int @map("provincia_id")
+  provincia   Provincia @relation(fields: [provinciaId], references: [id])
+  provinciaId Int       @map("provincia_id")
 
-  personas Persona[]
-
+  personas    Persona[]
   puntoventas Puntoventa[]
 
   @@map("distritos")
 }
 
 model Persona {
-  id Int @id @default(autoincrement())
-  nombre String
+  id        Int      @id @default(autoincrement())
+  nombre    String
   apellidos String
-  dni String @unique
-  telefono String
+  dni       String   @unique
+  telefono  String
   createdAt DateTime @default(now()) @map("created_At")
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @map("updated_At")
 
-  departamento Departamento @relation(fields: [departamentoId], references: [id])
-  departamentoId Int @map("departamento_id")
+  departamento   Departamento @relation(fields: [departamentoId], references: [id])
+  departamentoId Int          @map("departamento_id")
 
-  provincia Provincia @relation(fields: [provinciaId], references: [id])
-  provinciaId Int @map("provincia_id")
+  provincia   Provincia @relation(fields: [provinciaId], references: [id])
+  provinciaId Int       @map("provincia_id")
 
-  distrito Distrito @relation(fields: [distritoId], references: [id])
-  distritoId Int @map("distrito_id")
+  distrito   Distrito @relation(fields: [distritoId], references: [id])
+  distritoId Int      @map("distrito_id")
 
-  rol Rol @relation(fields: [rolId], references: [id])
+  rol   Rol @relation(fields: [rolId], references: [id])
   rolId Int @map("rol_id")
 
   user User?
-//en relacion uno a uno se debe poner el signo de ?
-  negocio Negocio?
 
+  // Relación uno a uno se define con ? en el lado no principal
+  negocio     Negocio?
   puntoventas Puntoventa[]
 
   @@map("personas")
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  usuario String @unique //el usuario sera el email, como lo indico?
-  password String
-  IsActive Boolean @default(true)
+  id        Int      @id @default(autoincrement())
+  usuario   String   @unique // Indicamos que será el email
+  password  String
+  isActive  Boolean  @default(true) @map("IsActive")
   createdAt DateTime @default(now()) @map("created_At")
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @map("updated_At")
 
-  persona Persona @relation(fields: [personaId], references: [id])
-  personaId Int @unique @map("persona_id")
+  persona   Persona @relation(fields: [personaId], references: [id])
+  personaId Int     @unique @map("persona_id")
 
   @@map("users")
 }
 
 model Rubro {
-  id Int @id @default(autoincrement())
-  nombre String
+  id        Int      @id @default(autoincrement())
+  nombre    String
   createdAt DateTime @default(now()) @map("created_At")
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @map("updated_At")
 
   negocios Negocio[]
 
@@ -127,84 +135,77 @@ model Rubro {
 }
 
 model Tipoduenonegocio {
-  id Int @id @default(autoincrement())
-  tipo String
+  id        Int      @id @default(autoincrement())
+  tipo      String
   createdAt DateTime @default(now()) @map("created_At")
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @map("updated_At")
 
   negocios Negocio[]
 
   @@map("tipoduenonegocios")
 }
+
 model Negocio {
-  id Int @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   razonSocial String
-  ruc String?
-  createdAt DateTime @default(now()) @map("created_At")
-  updatedAt DateTime @updatedAt
+  ruc         String?
+  createdAt   DateTime @default(now()) @map("created_At")
+  updatedAt   DateTime @updatedAt @map("updated_At")
 
-  rubro Rubro @relation(fields: [rubroId], references: [id])
-  rubroId Int @map("rubro_id")
+  rubro   Rubro @relation(fields: [rubroId], references: [id])
+  rubroId Int   @map("rubro_id")
 
-  tipoduenonegocio Tipoduenonegocio @relation(fields: [tipoduenonegocioId], references: [id])
-  tipoduenonegocioId Int @map("tipoduenonegocio_id")
+  tipoduenonegocio   Tipoduenonegocio @relation(fields: [tipoduenonegocioId], references: [id])
+  tipoduenonegocioId Int              @map("tipoduenonegocio_id")
 
-  persona Persona @relation(fields: [personaId], references: [id])
-  personaId Int @unique @map("distribuidor_id")
+  persona   Persona @relation(fields: [personaId], references: [id])
+  personaId Int     @unique @map("distribuidor_id")
 
-  puntoventas Puntoventa[]
-
-  productos Producto[]
-
+  puntoventas            Puntoventa[]
+  productos              Producto[]
   prodpresentaciontamano Prodpresentaciontamano[]
-
-  pagoaproveedores Pagoaproveedor[]
-
-  movisaldoproveedores Movisaldoproveedor[] 
-
-  saldoproveedores Saldoproveedor[]
+  pagoaproveedores       Pagoaproveedor[]
+  movisaldoproveedores   Movisaldoproveedor[]
+  saldoproveedores       Saldoproveedor[]
 
   @@map("negocios")
 }
 
 model Puntoventa {
-  id Int @id @default(autoincrement())
-  nombrecomercial String @unique
-  direcion String
-  createdAt DateTime @default(now()) @map("created_At")
-  updatedAt DateTime @updatedAt
+  id              Int      @id @default(autoincrement())
+  nombrecomercial String   @unique
+  direccion       String   @map("direcion") // Corrección ortográfica
+  createdAt       DateTime @default(now()) @map("created_At")
+  updatedAt       DateTime @updatedAt @map("updated_At")
 
-  negocio Negocio @relation(fields: [negocioId], references: [id])
-  negocioId Int @map("negocio_id")
+  negocio   Negocio @relation(fields: [negocioId], references: [id])
+  negocioId Int     @map("negocio_id")
 
-  persona Persona @relation(fields: [personaId], references: [id])
-  personaId Int @map("encargado_id")
+  persona   Persona @relation(fields: [personaId], references: [id])
+  personaId Int     @map("encargado_id")
 
-  departamento Departamento @relation(fields: [departamentoId], references: [id])
-  departamentoId Int @map("departamento_id")
+  departamento   Departamento @relation(fields: [departamentoId], references: [id])
+  departamentoId Int          @map("departamento_id")
 
-  provincia Provincia @relation(fields: [provinciaId], references: [id])
-  provinciaId Int @map("provincia_id")
+  provincia   Provincia @relation(fields: [provinciaId], references: [id])
+  provinciaId Int       @map("provincia_id")
 
-  distrito Distrito @relation(fields: [distritoId], references: [id])
-  distritoId Int @map("distrito_id")
+  distrito   Distrito @relation(fields: [distritoId], references: [id])
+  distritoId Int      @map("distrito_id")
 
-  transacciones Transaccion[]
-
-  pagodeclientes Pagodecliente[]
-
-  movisaldoclientes Movisaldocliente[] 
-
-  saldoclientes Saldocliente[] 
+  transacciones     Transaccion[]
+  pagodeclientes    Pagodecliente[]
+  movisaldoclientes Movisaldocliente[]
+  saldoclientes     Saldocliente[]
 
   @@map("puntoventas")
 }
 
 model Tipoproducto {
-  id Int @id @default(autoincrement())
-  nombre String
+  id        Int      @id @default(autoincrement())
+  nombre    String
   createdAt DateTime @default(now()) @map("created_At")
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @map("updated_At")
 
   productos Producto[]
 
@@ -212,286 +213,274 @@ model Tipoproducto {
 }
 
 model Producto {
-  id Int @id @default(autoincrement())
-  nombre String
+  id        Int      @id @default(autoincrement())
+  nombre    String
   createdAt DateTime @default(now()) @map("created_At")
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @map("updated_At")
 
-  tipoproducto Tipoproducto @relation(fields: [tipoproductoId], references: [id])
-  tipoproductoId Int @map("tipoproducto_id")
+  tipoproducto   Tipoproducto @relation(fields: [tipoproductoId], references: [id])
+  tipoproductoId Int          @map("tipoproducto_id")
 
-  negocios Negocio[]
-
+  negocios          Negocio[]
   productovariantes Productovariante[]
 
   @@map("productos")
 }
 
 model Unidad {
-  id Int @id @default(autoincrement())
-  nombre String
+  id        Int      @id @default(autoincrement())
+  nombre    String
   createdAt DateTime @default(now()) @map("created_At")
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @map("updated_At")
 
   prodpresentaciones Prodpresentacion[]
 
- @@map("unidades") 
+  @@map("unidades")
 }
 
 model Prodpresentacion {
-  id Int @id @default(autoincrement())
-  empaque String
+  id        Int      @id @default(autoincrement())
+  empaque   String
   createdAt DateTime @default(now()) @map("created_At")
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @map("updated_At")
 
-  unidades Unidad[]
-
+  unidades               Unidad[]
   prodpresentaciontamano Prodpresentaciontamano[]
 
- @@map("prodpresentacion") 
+  @@map("prodpresentacion")
 }
+
 model Prodpresentaciontamano {
-  id Int @id @default(autoincrement())
-  tamano String
+  id        Int      @id @default(autoincrement())
+  tamano    String
   createdAt DateTime @default(now()) @map("created_At")
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @map("updated_At")
 
-  prodpresentacion Prodpresentacion @relation(fields: [prodpresentacionId], references: [id])
-  prodpresentacionId Int @map("prodpresentacion_id")
+  prodpresentacion   Prodpresentacion @relation(fields: [prodpresentacionId], references: [id])
+  prodpresentacionId Int              @map("prodpresentacion_id")
 
-  negocios Negocio[]
-
+  negocios          Negocio[]
   productovariantes Productovariante[]
 
- @@map("prodpresentaciontamanos") 
+  @@map("prodpresentaciontamanos")
 }
+
 model Productovariante {
-  id Int @id @default(autoincrement())
-  costo Float
+  id           Int      @id @default(autoincrement())
+  costo        Float
   preciosinigv Float
   precioconigv Float
-  stock Int
-  createdAt DateTime @default(now()) @map("created_At")
-  updatedAt DateTime @updatedAt
+  stock        Int
+  createdAt    DateTime @default(now()) @map("created_At")
+  updatedAt    DateTime @updatedAt @map("updated_At")
 
-  productos Producto @relation(fields: [productoId], references: [id])
-  productoId Int @map("producto_id")
+  productos  Producto @relation(fields: [productoId], references: [id])
+  productoId Int      @map("producto_id")
 
-  prodpresentaciontamano Prodpresentaciontamano @relation(fields: [prodpresentaciontamanoId], references: [id])
-  prodpresentaciontamanoId Int @map("prodpresentaciontamano_id")
+  prodpresentaciontamano   Prodpresentaciontamano @relation(fields: [prodpresentaciontamanoId], references: [id])
+  prodpresentaciontamanoId Int                    @map("prodpresentaciontamano_id")
 
   movinventario Movinventario[]
+  inventarios   Inventario[]
 
-  inventarios Inventario[]
-
- @@map("productovariantes")   
-}
-
-enum Tipotransaccion {
-  COMPRA
-  VENTA
-  
+  @@map("productovariantes")
 }
 
 model Transaccion {
-  id Int @id @default(autoincrement())
+  id           Int             @id @default(autoincrement())
   fechaentrega DateTime
-  valortrans Float
-  estado String
-  tipotrans Tipotransaccion
-  createdAt DateTime @default(now()) @map("created_At")
-  updatedAt DateTime @updatedAt
+  valortrans   Float
+  estado       String
+  tipotrans    Tipotransaccion
+  createdAt    DateTime        @default(now()) @map("created_At")
+  updatedAt    DateTime        @updatedAt @map("updated_At")
 
-  puntoventa Puntoventa @relation(fields: [puntoventaId], references: [id])
-  puntoventaId Int @map("puntoventa_id")
+  puntoventa   Puntoventa @relation(fields: [puntoventaId], references: [id])
+  puntoventaId Int        @map("puntoventa_id")
 
-  transacciondetalles Transacciondetalle[]
-
+  transacciondetalles  Transacciondetalle[]
   transaccionprocesada Transaccionprocesada[]
+  movinventario        Movinventario[]
 
-  movinventario Movinventario[]
-
-  @@map("transacciones")   
+  @@map("transacciones")
 }
 
 model Transacciondetalle {
-  id Int @id @default(autoincrement())
-  cantidad Float
+  id         Int      @id @default(autoincrement())
+  cantidad   Float
   preciounit Float
-  subtotal Float
-  createdAt DateTime @default(now()) @map("created_At")
-  updatedAt DateTime @updatedAt
+  subtotal   Float
+  createdAt  DateTime @default(now()) @map("created_At")
+  updatedAt  DateTime @updatedAt @map("updated_At")
 
-  transaccion Transaccion @relation(fields: [transaccionId], references: [id])
-  transaccionId Int @map("transaccion_id")
+  transaccion   Transaccion @relation(fields: [transaccionId], references: [id])
+  transaccionId Int         @map("transaccion_id")
 
   @@map("transacciondetalles")
 }
 
 model Transaccionprocesada {
-  id Int @id @default(autoincrement())
+  id             Int             @id @default(autoincrement())
   valortransproc Float?
-  tipotrans Tipotransaccion //aun no se define el enum
-  createdAt DateTime @default(now()) @map("created_At")
-  updatedAt DateTime @updatedAt
+  tipotrans      Tipotransaccion
+  createdAt      DateTime        @default(now()) @map("created_At")
+  updatedAt      DateTime        @updatedAt @map("updated_At")
 
-  transaccion Transaccion @relation(fields: [transaccionId], references: [id])
-  transaccionId Int @unique @map("transaccion_id")
+  transaccion   Transaccion @relation(fields: [transaccionId], references: [id])
+  transaccionId Int         @unique @map("transaccion_id")
 
-
-@@map("transaccionprocesadas")
+  @@map("transaccionprocesadas")
 }
 
 model Tipomovistock {
-  id Int @id @default(autoincrement())
-  tipo String
+  id        Int      @id @default(autoincrement())
+  tipo      String
   createdAt DateTime @default(now()) @map("created_At")
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @map("updated_At")
 
   movinventario Movinventario[]
 
- @@map("tipomovistocks") 
+  @@map("tipomovistocks")
 }
 
 model Movinventario {
-  id Int @id @default(autoincrement())
-  cantidad Int
-  razon String
+  id        Int      @id @default(autoincrement())
+  cantidad  Int
+  razon     String
   createdAt DateTime @default(now()) @map("created_At")
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @map("updated_At")
 
-  tipomovistock Tipomovistock @relation(fields: [tipomovistockId], references: [id])
-  tipomovistockId Int @unique @map("tipomovistock_id")
+  tipomovistock   Tipomovistock @relation(fields: [tipomovistockId], references: [id])
+  tipomovistockId Int           @map("tipomovistock_id")
 
-  transaccion Transaccion @relation(fields: [transaccionId], references: [id])
-  transaccionId Int @map("transaccion_id")
+  transaccion   Transaccion @relation(fields: [transaccionId], references: [id])
+  transaccionId Int         @map("transaccion_id")
 
-  productovariante Productovariante @relation(fields: [productovarianteId], references: [id])
-  productovarianteId Int @unique @map("productovariante_id")
+  productovariante   Productovariante @relation(fields: [productovarianteId], references: [id])
+  productovarianteId Int              @map("productovariante_id")
 
- @@map("movinventarios") 
+  @@map("movinventarios")
 }
 
 model Inventario {
-  id Int @id @default(autoincrement())
-  stockfisico Int
+  id              Int      @id @default(autoincrement())
+  stockfisico     Int
   stockdisponible Int
-  createdAt DateTime @default(now()) @map("created_At")
-  updatedAt DateTime @updatedAt
+  createdAt       DateTime @default(now()) @map("created_At")
+  updatedAt       DateTime @updatedAt @map("updated_At")
 
-  productovariante Productovariante @relation(fields: [productovarianteId], references: [id])
-  productovarianteId Int @map("productovariante_id")
+  productovariante   Productovariante @relation(fields: [productovarianteId], references: [id])
+  productovarianteId Int              @map("productovariante_id")
 
   @@map("inventarios")
 }
 
 model Tipopago {
-  id Int @id @default(autoincrement())
-  tipo String
+  id        Int      @id @default(autoincrement())
+  tipo      String
   createdAt DateTime @default(now()) @map("created_At")
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @map("updated_At")
 
-  pagodeclientes Pagodecliente[]
-
+  pagodeclientes   Pagodecliente[]
   pagoaproveedores Pagoaproveedor[]
 
-@@map("tipopagos")
+  @@map("tipopagos")
 }
 
 model Tipomovimiento {
-  id Int @id @default(autoincrement())
-  tipo String
+  id        Int      @id @default(autoincrement())
+  tipo      String
   createdAt DateTime @default(now()) @map("created_At")
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @map("updated_At")
 
-  movisaldoclientes Movisaldocliente[]
-
+  movisaldoclientes    Movisaldocliente[]
   movisaldoproveedores Movisaldoproveedor[]
 
-@@map("tipomovimientos")
+  @@map("tipomovimientos")
 }
 
 model Pagodecliente {
-  id Int @id @default(autoincrement())
-  monto Float
-  detalle String?
+  id        Int      @id @default(autoincrement())
+  monto     Float
+  detalle   String?
   createdAt DateTime @default(now()) @map("created_At")
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @map("updated_At")
 
-  tipopago Tipopago @relation(fields: [tipopagoId], references: [id])
-  tipopagoId Int @map("tipopago_id")
+  tipopago   Tipopago @relation(fields: [tipopagoId], references: [id])
+  tipopagoId Int      @map("tipopago_id")
 
-  puntoventa Puntoventa @relation(fields: [puntoventaId], references: [id])
-  puntoventaId Int @map("puntoventa_id")
+  puntoventa   Puntoventa @relation(fields: [puntoventaId], references: [id])
+  puntoventaId Int        @map("puntoventa_id")
 
-@@map("pagodeclientes")
+  @@map("pagodeclientes")
 }
 
 model Movisaldocliente {
-  id Int @id @default(autoincrement())
+  id            Int      @id @default(autoincrement())
   movimiento_id Int
-  createdAt DateTime @default(now()) @map("created_At")
-  updatedAt DateTime @updatedAt
+  createdAt     DateTime @default(now()) @map("created_At")
+  updatedAt     DateTime @updatedAt @map("updated_At")
 
-  puntoventa Puntoventa @relation(fields: [puntoventaId], references: [id])
-  puntoventaId Int @map("puntoventa_id")
-  
-  tipomovimiento Tipomovimiento @relation(fields: [tipomovimientoId], references: [id])
-  tipomovimientoId Int @map("tipomovimiento_id")
+  puntoventa   Puntoventa @relation(fields: [puntoventaId], references: [id])
+  puntoventaId Int        @map("puntoventa_id")
 
- @@map("movisaldoclientes") 
+  tipomovimiento   Tipomovimiento @relation(fields: [tipomovimientoId], references: [id])
+  tipomovimientoId Int            @map("tipomovimiento_id")
+
+  @@map("movisaldoclientes")
 }
 
 model Saldocliente {
-  id Int @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   saldoactual Float
-  createdAt DateTime @default(now()) @map("created_At")
-  updatedAt DateTime @updatedAt
+  createdAt   DateTime @default(now()) @map("created_At")
+  updatedAt   DateTime @updatedAt @map("updated_At")
 
-  puntoventa Puntoventa @relation(fields: [puntoventaId], references: [id])
-  puntoventaId Int @map("puntoventa_id")  
+  puntoventa   Puntoventa @relation(fields: [puntoventaId], references: [id])
+  puntoventaId Int        @map("puntoventa_id")
 
   @@map("saldoclientes")
 }
 
 model Pagoaproveedor {
-  id Int @id @default(autoincrement())
-  monto Float
-  detalle String?
+  id        Int      @id @default(autoincrement())
+  monto     Float
+  detalle   String?
   createdAt DateTime @default(now()) @map("created_At")
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @map("updated_At")
 
-  tipopago Tipopago @relation(fields: [tipopagoId], references: [id])
-  tipopagoId Int @map("tipopago_id")
+  tipopago   Tipopago @relation(fields: [tipopagoId], references: [id])
+  tipopagoId Int      @map("tipopago_id")
 
-  negocio Negocio @relation(fields: [negocioId], references: [id])
-  negocioId Int @map("negocio_id")
+  negocio   Negocio @relation(fields: [negocioId], references: [id])
+  negocioId Int     @map("negocio_id")
 
-@@map("pagoaproveedores")
+  @@map("pagoaproveedores")
 }
+
 model Movisaldoproveedor {
-  id Int @id @default(autoincrement())
+  id            Int      @id @default(autoincrement())
   movimiento_id Int
-  createdAt DateTime @default(now()) @map("created_At")
-  updatedAt DateTime @updatedAt
+  createdAt     DateTime @default(now()) @map("created_At")
+  updatedAt     DateTime @updatedAt @map("updated_At")
 
-  negocio Negocio @relation(fields: [negocioId], references: [id])
-  negocioId Int @map("negocio_id")
-  
-  tipomovimiento Tipomovimiento @relation(fields: [tipomovimientoId], references: [id])
-  tipomovimientoId Int @map("tipomovimiento_id")
+  negocio   Negocio @relation(fields: [negocioId], references: [id])
+  negocioId Int     @map("negocio_id")
 
- @@map("movisaldoproveedores") 
+  tipomovimiento   Tipomovimiento @relation(fields: [tipomovimientoId], references: [id])
+  tipomovimientoId Int            @map("tipomovimiento_id")
+
+  @@map("movisaldoproveedores")
 }
 
 model Saldoproveedor {
-  id Int @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   saldoactual Float
-  createdAt DateTime @default(now()) @map("created_At")
-  updatedAt DateTime @updatedAt
+  createdAt   DateTime @default(now()) @map("created_At")
+  updatedAt   DateTime @updatedAt @map("updated_At")
 
-  negocio Negocio @relation(fields: [negocioId], references: [id])
-  negocioId Int @map("negocio_id")  
+  negocio   Negocio @relation(fields: [negocioId], references: [id])
+  negocioId Int     @map("negocio_id")
 
   @@map("saldoproveedores")
 }
