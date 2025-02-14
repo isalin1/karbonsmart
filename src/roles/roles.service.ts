@@ -7,7 +7,7 @@ import { prisma } from 'src/prisma/client';
 export class RolesService {
 
   async create(createRoleDto: CreateRoleDto) {
-    return await prisma.rols.create({
+    return await prisma.rol.create({
       data:createRoleDto
     });
   }
