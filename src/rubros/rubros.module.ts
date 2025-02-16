@@ -5,5 +5,6 @@ import { RubrosController } from './rubros.controller';
 @Module({
   controllers: [RubrosController],
   providers: [RubrosService],
+  exports: [RubrosService],
 })
 export class RubrosModule {}

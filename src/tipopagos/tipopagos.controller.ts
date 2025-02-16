@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { TipopagosService } from './tipopagos.service';
 import { CreateTipopagoDto } from './dto/create-tipopago.dto';
 import { UpdateTipopagoDto } from './dto/update-tipopago.dto';
@@ -23,7 +31,10 @@ export class TipopagosController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTipopagoDto: UpdateTipopagoDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateTipopagoDto: UpdateTipopagoDto,
+  ) {
     return this.tipopagosService.update(+id, updateTipopagoDto);
   }
 

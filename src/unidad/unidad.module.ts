@@ -5,5 +5,6 @@ import { UnidadController } from './unidad.controller';
 @Module({
   controllers: [UnidadController],
   providers: [UnidadService],
+  exports: [UnidadService],
 })
 export class UnidadModule {}

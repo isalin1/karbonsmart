@@ -1,11 +1,21 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { TipomovimientosService } from './tipomovimientos.service';
 import { CreateTipomovimientoDto } from './dto/create-tipomovimiento.dto';
 import { UpdateTipomovimientoDto } from './dto/update-tipomovimiento.dto';
 
 @Controller('tipomovimientos')
 export class TipomovimientosController {
-  constructor(private readonly tipomovimientosService: TipomovimientosService) {}
+  constructor(
+    private readonly tipomovimientosService: TipomovimientosService,
+  ) {}
 
   @Post()
   create(@Body() createTipomovimientoDto: CreateTipomovimientoDto) {
@@ -23,7 +33,10 @@ export class TipomovimientosController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTipomovimientoDto: UpdateTipomovimientoDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateTipomovimientoDto: UpdateTipomovimientoDto,
+  ) {
     return this.tipomovimientosService.update(+id, updateTipomovimientoDto);
   }
 

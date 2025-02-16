@@ -1,7 +1,7 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateTipomovimientoDto {
-    @IsString()
-    @IsNotEmpty() 
-    tipo: string  
+  @IsString()
+  @IsNotEmpty()
+  tipo: string;
 }
