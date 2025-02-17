@@ -6,20 +6,22 @@ import { prisma } from 'src/prisma/client';
 @Injectable()
 export class ProvinciasService {
   async create(createProvinciaDto: CreateProvinciaDto) {
-    const {nombre, departamentoId}=createProvinciaDto
-    const departamento = await prisma.departamento.findUnique({where: {
-      id:departamentoId
-    }})
-    if(!departamento) { 
-      throw new NotFoundException("no se encontro un elemento")
+    const { nombre, departamentoId } = createProvinciaDto;
+    const departamento = await prisma.departamento.findUnique({
+      where: {
+        id: departamentoId,
+      },
+    });
+    if (!departamento) {
+      throw new NotFoundException('no se encontro un elemento');
     }
-    
+
     return await prisma.provincia.create({
-      data:{
+      data: {
         nombre: nombre,
-        departamentoId: departamentoId
-      }
-    }) ;
+        departamentoId: departamentoId,
+      },
+    });
   }
 
   findAll() {
