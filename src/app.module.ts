@@ -9,7 +9,16 @@ import { TipopagosModule } from './tipopagos/tipopagos.module';
 import { TipomovimientosModule } from './tipomovimientos/tipomovimientos.module';
 
 @Module({
-  imports: [RubrosModule, RolesModule, TipoproductosModule, TipoduenonegocioModule, UnidadModule, TipomovistocksModule, TipopagosModule, TipomovimientosModule],
+  imports: [
+    RubrosModule,
+    RolesModule,
+    TipoproductosModule,
+    TipoduenonegocioModule,
+    UnidadModule,
+    TipomovistocksModule,
+    TipopagosModule,
+    TipomovimientosModule,
+  ],
   controllers: [],
   providers: [],
 })

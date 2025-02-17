@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { TipomovistocksService } from './tipomovistocks.service';
 import { CreateTipomovistockDto } from './dto/create-tipomovistock.dto';
 import { UpdateTipomovistockDto } from './dto/update-tipomovistock.dto';
@@ -23,7 +31,10 @@ export class TipomovistocksController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTipomovistockDto: UpdateTipomovistockDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateTipomovistockDto: UpdateTipomovistockDto,
+  ) {
     return this.tipomovistocksService.update(+id, updateTipomovistockDto);
   }
 
