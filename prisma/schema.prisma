@@ -30,7 +30,7 @@ model Rol {
   createdAt DateTime @default(now()) @map("created_At")
   updatedAt DateTime @updatedAt @map("updated_At")
 
-  personas Persona[]
+  User User[]
 
   @@map("rols")
 }
@@ -97,14 +97,12 @@ model Persona {
   distrito   Distrito @relation(fields: [distritoId], references: [id])
   distritoId Int      @map("distrito_id")
 
-  rol   Rol @relation(fields: [rolId], references: [id])
-  rolId Int @map("rol_id")
-
   user User?
 
   // Relación uno a uno se define con ? en el lado no principal
-  negocio     Negocio?
+  negocio     Negocio?     @relation(fields: [negocioId], references: [id])
   puntoventas Puntoventa[]
+  negocioId   Int?
 
   @@map("personas")
 }
@@ -117,8 +115,13 @@ model User {
   createdAt DateTime @default(now()) @map("created_At")
   updatedAt DateTime @updatedAt @map("updated_At")
 
-  persona   Persona @relation(fields: [personaId], references: [id])
-  personaId Int     @unique @map("persona_id")
+  rol   Rol @relation(fields: [rolId], references: [id])
+  rolId Int @map("rol_id")
+
+  persona   Persona     @relation(fields: [personaId], references: [id])
+  personaId Int         @unique @map("persona_id")
+  Encargado Encargado[]
+  Negocio   Negocio?
 
   @@map("users")
 }
@@ -158,8 +161,11 @@ model Negocio {
   tipoduenonegocio   Tipoduenonegocio @relation(fields: [tipoduenonegocioId], references: [id])
   tipoduenonegocioId Int              @map("tipoduenonegocio_id")
 
-  persona   Persona @relation(fields: [personaId], references: [id])
-  personaId Int     @unique @map("distribuidor_id")
+  user   User @relation(fields: [userId], references: [id])
+  userId Int  @unique @map("distribuidor_id")
+
+  encargado   Encargado @relation("dueno", fields: [encargadoId], references: [id])
+  encargadoId Int       @map("encargado_id")
 
   puntoventas            Puntoventa[]
   productos              Producto[]
@@ -167,6 +173,8 @@ model Negocio {
   pagoaproveedores       Pagoaproveedor[]
   movisaldoproveedores   Movisaldoproveedor[]
   saldoproveedores       Saldoproveedor[]
+  encargados             Encargado[]
+  Persona                Persona[]
 
   @@map("negocios")
 }
@@ -483,4 +491,21 @@ model Saldoproveedor {
   negocioId Int     @map("negocio_id")
 
   @@map("saldoproveedores")
+}
+
+model Encargado {
+  id        Int      @id @default(autoincrement())
+  nombre    String
+  apellidos String
+  telefono  String
+  dni       String
+  createdAt DateTime @default(now()) @map("created_At")
+  updatedAt DateTime @updatedAt @map("updated_At")
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int  @map("user_id")
+
+  negocio   Negocio?  @relation(fields: [negocioId], references: [id])
+  negocioId Int?      @map("negocio_id")
+  negocios  Negocio[] @relation("dueno")
 }

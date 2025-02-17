@@ -7,6 +7,8 @@ import { UnidadModule } from './unidad/unidad.module';
 import { TipomovistocksModule } from './tipomovistocks/tipomovistocks.module';
 import { TipopagosModule } from './tipopagos/tipopagos.module';
 import { TipomovimientosModule } from './tipomovimientos/tipomovimientos.module';
+import { DepartamentosModule } from './departamentos/departamentos.module';
+import { ProvinciasModule } from './provincias/provincias.module';
 
 @Module({
   imports: [
@@ -18,6 +20,8 @@ import { TipomovimientosModule } from './tipomovimientos/tipomovimientos.module'
     TipomovistocksModule,
     TipopagosModule,
     TipomovimientosModule,
+    DepartamentosModule,
+    ProvinciasModule,
   ],
   controllers: [],
   providers: [],
