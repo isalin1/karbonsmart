@@ -9,6 +9,10 @@ import { TipopagosModule } from './tipopagos/tipopagos.module';
 import { TipomovimientosModule } from './tipomovimientos/tipomovimientos.module';
 import { DepartamentosModule } from './departamentos/departamentos.module';
 import { ProvinciasModule } from './provincias/provincias.module';
+import { DistritosModule } from './distritos/distritos.module';
+import { PersonasModule } from './personas/personas.module';
+import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -22,6 +26,10 @@ import { ProvinciasModule } from './provincias/provincias.module';
     TipomovimientosModule,
     DepartamentosModule,
     ProvinciasModule,
+    DistritosModule,
+    PersonasModule,
+    UsersModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],

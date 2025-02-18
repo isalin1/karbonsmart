@@ -1,20 +1,25 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateDepartamentoDto } from './dto/create-departamento.dto';
 import { UpdateDepartamentoDto } from './dto/update-departamento.dto';
 import { prisma } from 'src/prisma/client';
 
 @Injectable()
 export class DepartamentosService {
+  
   async create(createDepartamentoDto: CreateDepartamentoDto) {
     return await prisma.departamento.create({ data: createDepartamentoDto });
   }
 
-  findAll() {
-    return `This action returns all departamentos`;
+  async findAll() {
+    return await prisma.departamento.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} departamento`;
+  async findOne(id: number) {
+    const departamento = await prisma.departamento.findUnique({where: {id}});
+    if(!departamento){
+      throw new NotFoundException(`No se encontro elemento con id ${id}`)
+    }
+        return departamento;
   }
 
   update(id: number, updateDepartamentoDto: UpdateDepartamentoDto) {
