@@ -11,6 +11,8 @@ import { DepartamentosModule } from './departamentos/departamentos.module';
 import { ProvinciasModule } from './provincias/provincias.module';
 import { DistritosModule } from './distritos/distritos.module';
 import { PersonasModule } from './personas/personas.module';
+import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -26,6 +28,8 @@ import { PersonasModule } from './personas/personas.module';
     ProvinciasModule,
     DistritosModule,
     PersonasModule,
+    UsersModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
