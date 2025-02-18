@@ -1,10 +1,10 @@
-import { IsInt, IsNotEmpty, IsString } from "class-validator";
+import { IsInt, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateProvinciaDto {
-    @IsNotEmpty()
-    @IsString()
-    nombre: string
+  @IsNotEmpty()
+  @IsString()
+  nombre: string;
 
-    @IsInt()
-    departamentoId: number
+  @IsInt()
+  departamentoId: number;
 }
