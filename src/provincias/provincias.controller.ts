@@ -30,6 +30,11 @@ export class ProvinciasController {
     return this.provinciasService.findOne(+id);
   }
 
+  @Get('departamento/:id')
+  findByDepartamento(@Param('id') id:string){
+    return this.provinciasService.findByDepartamento(+id);
+  }
+
   @Patch(':id')
   update(
     @Param('id') id: string,

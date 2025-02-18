@@ -9,6 +9,8 @@ import { TipopagosModule } from './tipopagos/tipopagos.module';
 import { TipomovimientosModule } from './tipomovimientos/tipomovimientos.module';
 import { DepartamentosModule } from './departamentos/departamentos.module';
 import { ProvinciasModule } from './provincias/provincias.module';
+import { DistritosModule } from './distritos/distritos.module';
+import { PersonasModule } from './personas/personas.module';
 
 @Module({
   imports: [
@@ -22,6 +24,8 @@ import { ProvinciasModule } from './provincias/provincias.module';
     TipomovimientosModule,
     DepartamentosModule,
     ProvinciasModule,
+    DistritosModule,
+    PersonasModule,
   ],
   controllers: [],
   providers: [],
