@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { DistritosService } from './distritos.service';
 import { CreateDistritoDto } from './dto/create-distrito.dto';
 import { UpdateDistritoDto } from './dto/update-distrito.dto';
@@ -23,11 +31,14 @@ export class DistritosController {
   }
 
   @Get('provincia/:id')
-  findByProvincia(@Param('id') id:string){
+  findByProvincia(@Param('id') id: string) {
     return this.distritosService.findByProvincia(+id);
   }
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDistritoDto: UpdateDistritoDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateDistritoDto: UpdateDistritoDto,
+  ) {
     return this.distritosService.update(+id, updateDistritoDto);
   }
 

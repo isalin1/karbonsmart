@@ -1,10 +1,10 @@
-import { IsInt, IsNotEmpty, IsString } from "class-validator";
+import { IsInt, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateDistritoDto {
-    @IsNotEmpty()
-    @IsString()
-    nombre: string
+  @IsNotEmpty()
+  @IsString()
+  nombre: string;
 
-    @IsInt()
-    provinciaId: number
+  @IsInt()
+  provinciaId: number;
 }

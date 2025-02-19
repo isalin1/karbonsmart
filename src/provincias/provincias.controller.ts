@@ -31,7 +31,7 @@ export class ProvinciasController {
   }
 
   @Get('departamento/:id')
-  findByDepartamento(@Param('id') id:string){
+  findByDepartamento(@Param('id') id: string) {
     return this.provinciasService.findByDepartamento(+id);
   }
 

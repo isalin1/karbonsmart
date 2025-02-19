@@ -5,22 +5,23 @@ import { prisma } from 'src/prisma/client';
 
 @Injectable()
 export class DistritosService {
-
   async create(createDistritoDto: CreateDistritoDto) {
-    const {nombre, provinciaId}=createDistritoDto
-        const provincia = await prisma.provincia.findUnique({where: {
-          id:provinciaId
-        }})
-        if(!provincia) { 
-          throw new NotFoundException("no se encontro un elemento")
-        }
-        
-        return await prisma.distrito.create({
-          data:{
-            nombre: nombre,
-            provinciaId: provinciaId
-          }
-        }) ;
+    const { nombre, provinciaId } = createDistritoDto;
+    const provincia = await prisma.provincia.findUnique({
+      where: {
+        id: provinciaId,
+      },
+    });
+    if (!provincia) {
+      throw new NotFoundException('no se encontro un elemento');
+    }
+
+    return await prisma.distrito.create({
+      data: {
+        nombre: nombre,
+        provinciaId: provinciaId,
+      },
+    });
   }
 
   async findAll() {
@@ -33,9 +34,9 @@ export class DistritosService {
 
   async findByProvincia(provinciaId: number) {
     return await prisma.distrito.findMany({
-      where: {provinciaId},
+      where: { provinciaId },
     });
-    }
+  }
   update(id: number, updateDistritoDto: UpdateDistritoDto) {
     return `This action updates a #${id} distrito`;
   }

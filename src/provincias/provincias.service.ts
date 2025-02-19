@@ -5,7 +5,6 @@ import { prisma } from 'src/prisma/client';
 
 @Injectable()
 export class ProvinciasService {
-  
   async create(createProvinciaDto: CreateProvinciaDto) {
     const { nombre, departamentoId } = createProvinciaDto;
     const departamento = await prisma.departamento.findUnique({
@@ -34,9 +33,9 @@ export class ProvinciasService {
   }
 
   async findByDepartamento(departamentoId: number) {
-  return await prisma.provincia.findMany({
-    where: {departamentoId},
-  });
+    return await prisma.provincia.findMany({
+      where: { departamentoId },
+    });
   }
 
   update(id: number, updateProvinciaDto: UpdateProvinciaDto) {

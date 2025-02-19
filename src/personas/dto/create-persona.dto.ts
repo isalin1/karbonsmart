@@ -1,22 +1,21 @@
-import { IsInt, IsString } from "class-validator"
+import { IsInt, IsString } from 'class-validator';
 
 export class CreatePersonaDto {
-    @IsString()
-    nombre: string
-    @IsString()
-    apellidos: string
-    @IsString()
-    dni: string
-    @IsString()
-    telefono: string
-    
-    
-    @IsInt()
-    departamentoId: number
+  @IsString()
+  nombre: string;
+  @IsString()
+  apellidos: string;
+  @IsString()
+  dni: string;
+  @IsString()
+  telefono: string;
 
-    @IsInt()
-    provinciaId:number
+  @IsInt()
+  departamentoId: number;
 
-    @IsInt()
-    distritoId: number
+  @IsInt()
+  provinciaId: number;
+
+  @IsInt()
+  distritoId: number;
 }

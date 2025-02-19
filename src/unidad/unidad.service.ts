@@ -37,7 +37,6 @@ export class UnidadService {
   }
 
   async remove(id: number) {
-    
     const unidad = await prisma.unidad.findUnique({ where: { id } });
     if (!unidad)
       throw new NotFoundException(`No se encontro un elemento con id ${id}`);

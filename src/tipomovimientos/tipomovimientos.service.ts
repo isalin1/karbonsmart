@@ -29,7 +29,7 @@ export class TipomovimientosService {
 
   async update(id: number, updateTipomovimientoDto: UpdateTipomovimientoDto) {
     await this.findOne(id);
-    
+
     const tipomovimiento = await prisma.tipomovimiento.update({
       where: { id },
       data: updateTipomovimientoDto,
