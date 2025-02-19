@@ -5,7 +5,6 @@ import { prisma } from 'src/prisma/client';
 
 @Injectable()
 export class DepartamentosService {
-  
   async create(createDepartamentoDto: CreateDepartamentoDto) {
     return await prisma.departamento.create({ data: createDepartamentoDto });
   }
@@ -15,11 +14,13 @@ export class DepartamentosService {
   }
 
   async findOne(id: number) {
-    const departamento = await prisma.departamento.findUnique({where: {id}});
-    if(!departamento){
-      throw new NotFoundException(`No se encontro elemento con id ${id}`)
+    const departamento = await prisma.departamento.findUnique({
+      where: { id },
+    });
+    if (!departamento) {
+      throw new NotFoundException(`No se encontro elemento con id ${id}`);
     }
-        return departamento;
+    return departamento;
   }
 
   update(id: number, updateDepartamentoDto: UpdateDepartamentoDto) {
