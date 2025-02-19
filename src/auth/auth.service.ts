@@ -8,9 +8,11 @@ export class AuthService {
 
   async register(registerDto: RegisterDto) {
     const user = await this.usersService.findOneByEmail(registerDto.email);
+
     if (user) {
       throw new BadRequestException('el email ya esta siendo usado');
     }
+    
     return await this.usersService.create(registerDto);
   }
 

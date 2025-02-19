@@ -3,7 +3,6 @@ import {
   IsInt,
   IsString,
   MinLength,
-  minLength,
 } from 'class-validator';
 
 export class CreateUserDto {

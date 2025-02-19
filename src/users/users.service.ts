@@ -16,6 +16,7 @@ export class UsersService {
         id: personaId,
       },
     });
+    
     if (!persona) {
       throw new NotFoundException(
         `no se encontro una persona con el id ${personaId}`,
@@ -45,6 +46,7 @@ export class UsersService {
   findAll() {
     return `This action returns all users`;
   }
+
   async findOneByEmail(email: string) {
     const user = await prisma.user.findUnique({ where: { email } });
 
