@@ -1,33 +1,32 @@
-import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { RegisterDto } from './dto/register.dto';
 import { prisma } from 'src/prisma/client';
-import * as bcrypt from 'bcrypt';
+import { hash } from 'bcrypt';
 
 @Injectable()
 export class AuthService {
   constructor(private readonly usersService: UsersService) {}
 
   async register(registerDto: RegisterDto) {
-    const {email,password,personaId,rolId}=registerDto;
+    const { email, password, personaId } = registerDto;
 
-    //validar si ya existe persona usando el email que debe ser unico
-    /*const existingUser = await prisma.user.findUnique({
-          where: { email },
-        });
-        if (existingUser) {
-          throw new ConflictException('El email ya está en uso');
-        }
-    */
+    const existingUser = await prisma.user.findFirst({
+      where: { email },
+    });
+
+    if (existingUser) {
+      throw new ConflictException('El email ya está en uso');
+    }
+
+    const passwordHashed = await hash(password, 10);
+
     return await this.usersService.create({
-        email,
-        personaId,
-        rolId,
-        //implementacion de hasheo de paswword
-        password: await bcrypt.hash(password,10)
+      email,
+      personaId,
+      password: passwordHashed,
     });
   }
-
 
   login() {
     return 'login';
