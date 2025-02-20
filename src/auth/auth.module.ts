@@ -21,10 +21,10 @@ import { JwtModule } from '@nestjs/jwt';
           },
         };
       },
-    }), 
-    UsersModule
+    }),
+    UsersModule,
   ],
   controllers: [AuthController],
   providers: [AuthService],
 })
-export class AuthModule { }
+export class AuthModule {}

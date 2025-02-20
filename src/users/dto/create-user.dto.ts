@@ -1,6 +1,7 @@
 import {
   IsEmail,
   IsInt,
+  IsOptional,
   IsString,
   MinLength,
 } from 'class-validator';
@@ -17,5 +18,6 @@ export class CreateUserDto {
   personaId: number;
 
   @IsInt()
-  rolId: number;
+  @IsOptional()
+  rolId?: number;
 }

@@ -6,45 +6,61 @@ import {
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { prisma } from 'src/prisma/client';
+import { Rol } from '@prisma/client';
 
 @Injectable()
 export class UsersService {
   async create(createUserDto: CreateUserDto) {
-    const { email, personaId, rolId } = createUserDto;
+    const { email, personaId, rolId, password } = createUserDto;
 
-    //validar si existe persona con personaId
     const persona = await prisma.persona.findFirst({
       where: {
         id: personaId,
       },
     });
-    
+
     if (!persona) {
       throw new NotFoundException(
         `no se encontro una persona con el id ${personaId}`,
       );
     }
 
-    //validar si existe rol con rolId
-    const rol = await prisma.rol.findFirst({
-      where: {
-        id: rolId,
-      },
-    });
+    let rol: Rol | null;
+
+    if (rolId) {
+      rol = await prisma.rol.findFirst({
+        where: {
+          id: rolId,
+        },
+      });
+    } else {
+      rol = await prisma.rol.findFirst({
+        where: {
+          tipo: 'distribuidor',
+        },
+      });
+    }
+
     if (!rol) {
       throw new NotFoundException(`no se encontro un rol con el id ${rolId}`);
     }
-    
-    //validar si ya existe persona usando el email que debe ser unico
+
     const existingUser = await prisma.user.findFirst({
       where: { email },
     });
+
     if (existingUser) {
       throw new ConflictException('El email ya está en uso');
     }
 
     return await prisma.user.create({
-      data: createUserDto});
+      data: {
+        email,
+        personaId,
+        rolId: rol.id,
+        password,
+      },
+    });
   }
 
   findAll() {

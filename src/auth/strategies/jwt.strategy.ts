@@ -10,9 +10,7 @@ import { prisma } from 'src/prisma/client';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(
-        configService: ConfigService,
-  ) {
+  constructor(configService: ConfigService) {
     super({
       secretOrKey: configService.get('JWT_SEED') as string,
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
