@@ -58,9 +58,16 @@ export class PersonasService {
     return await prisma.persona.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} persona`;
+  async findOne(id: number) {
+    const persona = await prisma.persona.findUnique({ where: { id } });
+
+    if (!persona) {
+      throw new NotFoundException(`No se encontro un elemento con id ${id}`);
+    }
+
+    return persona;
   }
+  
 
   update(id: number, updatePersonaDto: UpdatePersonaDto) {
     return `This action updates a #${id} persona`;
