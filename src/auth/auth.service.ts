@@ -8,6 +8,7 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { PersonasService } from 'src/personas/personas.service';
+import { Persona, User } from '@prisma/client';
 
 
 @Injectable()
@@ -17,7 +18,7 @@ export class AuthService {
     private readonly personasService: PersonasService,
     private readonly jwtService: JwtService
 
-  ) {}
+  ) { }
 
   async register(registerDto: RegisterDto) {
     const { email, password, personaId } = registerDto;
@@ -40,50 +41,48 @@ export class AuthService {
   }
 
 
-  async login({email, password}: LoginDto) {
+  async login({ email, password }: LoginDto) {
     const user = await this.usersService.findOneByEmail(email);
-    if(!user){
+
+    if (!user) {
       throw new UnauthorizedException('email no esta registrado');
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
-    if(!isPasswordValid){
+
+    if (!isPasswordValid) {
       throw new UnauthorizedException('contraseña incorrecta');
     }
-   
+
     const mitoken = await this.createToken(user);
-    
+
     return {
       mitoken,
       email,
     }
   }
 
-  async createToken(user): Promise<any> {
+  async createToken(user: User & { persona: Persona }): Promise<any> {
     try {
-    const usuario = await this.usersService.findOneByEmail(user.email);
-    const persona = await this.personasService.findOne(user.personaId)
+      const payload: JwtPayload = {
+        id: user.id,
+        email: user.email,
+        name: user.persona.nombre,
+      };
 
-    if (!usuario || !persona) {
-      throw new NotFoundException('Usuario o persona no encontrados');
+      const token = await this.jwtService.signAsync(payload);
+
+      return {
+        accessToken: token
+      };
+
+    } catch (error) {
+      console.log({
+        error
+      })
+
+      throw new Error('No se pudo crear el token');
     }
-
-    const payload:JwtPayload = {
-      id: usuario.id,
-      email: usuario.email,
-      name: persona.nombre
-    };
-
-    const token = this.jwtService.signAsync(payload);
-
-    return {
-      accessToken: token
-    };
-
-  } catch (error) {
-  
-    throw new Error('No se pudo crear el token');
-  }
 
   }
 } 
