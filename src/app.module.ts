@@ -13,6 +13,14 @@ import { DistritosModule } from './distritos/distritos.module';
 import { PersonasModule } from './personas/personas.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { EncargadosModule } from './encargados/encargados.module';
+import { NegociosModule } from './negocios/negocios.module';
+import { PuntoventasModule } from './puntoventas/puntoventas.module';
+import { ProductosModule } from './productos/productos.module';
+import { ProdpresentacionModule } from './prodpresentacion/prodpresentacion.module';
+import { ProdpresentaciontamanosModule } from './prodpresentaciontamanos/prodpresentaciontamanos.module';
+import { ProductovariantesModule } from './productovariantes/productovariantes.module';
+import { TransaccionesModule } from './transacciones/transacciones.module';
 
 @Module({
   imports: [
@@ -30,6 +38,14 @@ import { AuthModule } from './auth/auth.module';
     PersonasModule,
     UsersModule,
     AuthModule,
+    EncargadosModule,
+    NegociosModule,
+    PuntoventasModule,
+    ProductosModule,
+    ProdpresentacionModule,
+    ProdpresentaciontamanosModule,
+    ProductovariantesModule,
+    TransaccionesModule,
   ],
   controllers: [],
   providers: [],

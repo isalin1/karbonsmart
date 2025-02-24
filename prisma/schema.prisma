@@ -101,7 +101,7 @@ model Persona {
 
   // Relación uno a uno se define con ? en el lado no principal
   negocio     Negocio?     @relation(fields: [negocioId], references: [id])
-  puntoventas Puntoventa[]
+  
   negocioId   Int?
 
   @@map("personas")
@@ -121,7 +121,7 @@ model User {
   persona   Persona     @relation(fields: [personaId], references: [id])
   personaId Int         @unique @map("persona_id")
   Encargado Encargado[]
-  Negocio   Negocio?
+  Negocio   Negocio[]
 
   @@map("users")
 }
@@ -162,14 +162,15 @@ model Negocio {
   tipoduenonegocioId Int              @map("tipoduenonegocio_id")
 
   user   User @relation(fields: [userId], references: [id])
-  userId Int  @unique @map("distribuidor_id")
+  //se elimino la restriccion @unique, es decir un distribuidor puede tener muchos negocios
+  userId Int  @map("distribuidor_id")
 
   encargado   Encargado @relation("dueno", fields: [encargadoId], references: [id])
   encargadoId Int       @map("encargado_id")
 
   puntoventas            Puntoventa[]
-  productos              Producto[]
-  prodpresentaciontamano Prodpresentaciontamano[]
+  productos              Producto[] @relation("ProductoNegocios")
+  prodpresentaciontamano Prodpresentaciontamano[] @relation("ProdpresentaciontamanoNegocios")
   pagoaproveedores       Pagoaproveedor[]
   movisaldoproveedores   Movisaldoproveedor[]
   saldoproveedores       Saldoproveedor[]
@@ -189,8 +190,9 @@ model Puntoventa {
   negocio   Negocio @relation(fields: [negocioId], references: [id])
   negocioId Int     @map("negocio_id")
 
-  persona   Persona @relation(fields: [personaId], references: [id])
-  personaId Int     @map("encargado_id")
+  encargado   Encargado @relation(fields: [encargadoId], references: [id])
+  encargadoId Int     @map("encargado_id")
+
 
   departamento   Departamento @relation(fields: [departamentoId], references: [id])
   departamentoId Int          @map("departamento_id")
@@ -229,7 +231,7 @@ model Producto {
   tipoproducto   Tipoproducto @relation(fields: [tipoproductoId], references: [id])
   tipoproductoId Int          @map("tipoproducto_id")
 
-  negocios          Negocio[]
+  negocios          Negocio[] @relation("ProductoNegocios")
   productovariantes Productovariante[]
 
   @@map("productos")
@@ -241,7 +243,7 @@ model Unidad {
   createdAt DateTime @default(now()) @map("created_At")
   updatedAt DateTime @updatedAt @map("updated_At")
 
-  prodpresentaciones Prodpresentacion[]
+  prodpresentaciones Prodpresentacion[] @relation("ProdpresentacionUnidades")
 
   @@map("unidades")
 }
@@ -252,8 +254,8 @@ model Prodpresentacion {
   createdAt DateTime @default(now()) @map("created_At")
   updatedAt DateTime @updatedAt @map("updated_At")
 
-  unidades               Unidad[]
-  prodpresentaciontamano Prodpresentaciontamano[]
+  unidades               Unidad[] @relation("ProdpresentacionUnidades")
+  prodpresentaciontamanos Prodpresentaciontamano[] @relation("ProdpresentacionProdpresentaciontamanos")
 
   @@map("prodpresentacion")
 }
@@ -264,10 +266,10 @@ model Prodpresentaciontamano {
   createdAt DateTime @default(now()) @map("created_At")
   updatedAt DateTime @updatedAt @map("updated_At")
 
-  prodpresentacion   Prodpresentacion @relation(fields: [prodpresentacionId], references: [id])
-  prodpresentacionId Int              @map("prodpresentacion_id")
+  prodpresentaciones   Prodpresentacion [] @relation("ProdpresentacionProdpresentaciontamanos")
+  
 
-  negocios          Negocio[]
+  negocios          Negocio[] @relation("ProdpresentaciontamanoNegocios")
   productovariantes Productovariante[]
 
   @@map("prodpresentaciontamanos")
@@ -505,7 +507,10 @@ model Encargado {
   user   User @relation(fields: [userId], references: [id])
   userId Int  @map("user_id")
 
+  puntoventas Puntoventa[]
+
   negocio   Negocio?  @relation(fields: [negocioId], references: [id])
   negocioId Int?      @map("negocio_id")
+
   negocios  Negocio[] @relation("dueno")
 }
