@@ -21,6 +21,10 @@ import { ProdpresentacionModule } from './prodpresentacion/prodpresentacion.modu
 import { ProdpresentaciontamanosModule } from './prodpresentaciontamanos/prodpresentaciontamanos.module';
 import { ProductovariantesModule } from './productovariantes/productovariantes.module';
 import { TransaccionesModule } from './transacciones/transacciones.module';
+import { TransacciondetallesModule } from './transacciondetalles/transacciondetalles.module';
+import { TransaccionprocesadasModule } from './transaccionprocesadas/transaccionprocesadas.module';
+import { MovinventariosModule } from './movinventarios/movinventarios.module';
+import { PagodeclientesModule } from './pagodeclientes/pagodeclientes.module';
 
 @Module({
   imports: [
@@ -46,6 +50,10 @@ import { TransaccionesModule } from './transacciones/transacciones.module';
     ProdpresentaciontamanosModule,
     ProductovariantesModule,
     TransaccionesModule,
+    TransacciondetallesModule,
+    TransaccionprocesadasModule,
+    MovinventariosModule,
+    PagodeclientesModule,
   ],
   controllers: [],
   providers: [],

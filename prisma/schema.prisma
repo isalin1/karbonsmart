@@ -234,6 +234,8 @@ model Producto {
   negocios          Negocio[] @relation("ProductoNegocios")
   productovariantes Productovariante[]
 
+  transacciondetalles Transacciondetalle[]
+
   @@map("productos")
 }
 
@@ -325,6 +327,10 @@ model Transacciondetalle {
 
   transaccion   Transaccion @relation(fields: [transaccionId], references: [id])
   transaccionId Int         @map("transaccion_id")
+
+  producto   Producto @relation(fields: [productoId], references: [id])
+  productoId Int         @map("producto_id")
+
 
   @@map("transacciondetalles")
 }

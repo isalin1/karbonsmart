@@ -7,8 +7,8 @@ import { prisma } from 'src/prisma/client';
 export class TransaccionesService {
   async create(createTransaccioneDto: CreateTransaccioneDto) {
     const {puntoventaId} = createTransaccioneDto;
-
-    const puntoventa = await prisma.puntoventa.findUnique({
+      //validacion si existe llave foranea
+      const puntoventa = await prisma.puntoventa.findUnique({
           where: {
             id: puntoventaId,
           },
