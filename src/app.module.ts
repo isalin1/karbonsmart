@@ -25,6 +25,9 @@ import { TransacciondetallesModule } from './transacciondetalles/transacciondeta
 import { TransaccionprocesadasModule } from './transaccionprocesadas/transaccionprocesadas.module';
 import { MovinventariosModule } from './movinventarios/movinventarios.module';
 import { PagodeclientesModule } from './pagodeclientes/pagodeclientes.module';
+import { PagoaproveedoresModule } from './pagoaproveedores/pagoaproveedores.module';
+import { SaldoclientesModule } from './saldoclientes/saldoclientes.module';
+import { SaldoproveedoresModule } from './saldoproveedores/saldoproveedores.module';
 
 @Module({
   imports: [
@@ -54,6 +57,9 @@ import { PagodeclientesModule } from './pagodeclientes/pagodeclientes.module';
     TransaccionprocesadasModule,
     MovinventariosModule,
     PagodeclientesModule,
+    PagoaproveedoresModule,
+    SaldoclientesModule,
+    SaldoproveedoresModule,
   ],
   controllers: [],
   providers: [],
