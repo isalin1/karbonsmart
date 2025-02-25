@@ -18,7 +18,7 @@ export class SaldoclientesService {
                       `no se encontro un elemento con el id ${puntoventaId}`,
                     );
               }
-              return prisma.saldocliente.create({
+      return prisma.saldocliente.create({
                 data: createSaldoclienteDto,
               });
 

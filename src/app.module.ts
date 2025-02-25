@@ -28,6 +28,8 @@ import { PagodeclientesModule } from './pagodeclientes/pagodeclientes.module';
 import { PagoaproveedoresModule } from './pagoaproveedores/pagoaproveedores.module';
 import { SaldoclientesModule } from './saldoclientes/saldoclientes.module';
 import { SaldoproveedoresModule } from './saldoproveedores/saldoproveedores.module';
+import { MovisaldoclientesModule } from './movisaldoclientes/movisaldoclientes.module';
+import { MovisaldoproveedoresModule } from './movisaldoproveedores/movisaldoproveedores.module';
 
 @Module({
   imports: [
@@ -60,6 +62,8 @@ import { SaldoproveedoresModule } from './saldoproveedores/saldoproveedores.modu
     PagoaproveedoresModule,
     SaldoclientesModule,
     SaldoproveedoresModule,
+    MovisaldoclientesModule,
+    MovisaldoproveedoresModule,
   ],
   controllers: [],
   providers: [],
